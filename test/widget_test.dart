@@ -4,24 +4,20 @@ import 'package:material_ui/material_ui.dart';
 import 'test_harness.dart';
 
 void main() {
-  testWidgets('logged out start and login redirect show Users shell', (
+  testWidgets('logged out start and login redirect show Book Club shell', (
     tester,
   ) async {
     final router = await startApp(tester);
     expect(router.state.uri.path, '/login');
-    expect(find.text('/login'), findsWidgets);
-    expect(find.byType(BottomNavigationBar), findsNothing);
+    expect(find.text('Login'), findsWidgets);
+    expect(find.byType(NavigationBar), findsNothing);
     await tapLabel(tester, 'Login');
-    expect(router.state.uri.path, '/users');
+    expect(router.state.uri.path, '/byAuthor');
     expect(
-      tester
-          .widget<BottomNavigationBar>(find.byType(BottomNavigationBar))
-          .currentIndex,
+      tester.widget<NavigationBar>(find.byType(NavigationBar)).selectedIndex,
       0,
     );
-    expect(find.text('Alex Shirazi'), findsOneWidget);
-    expect(find.text('Jordan Lee'), findsOneWidget);
-    expect(find.text('Sam Rivera'), findsOneWidget);
+    expect(find.text('Sorted by Author'), findsOneWidget);
   });
   testWidgets('login remains disabled while waiting', (tester) async {
     await startApp(tester, delay: const Duration(seconds: 1));
@@ -37,6 +33,6 @@ void main() {
     );
     await tester.pump(const Duration(seconds: 1));
     await tester.pumpAndSettle();
-    expect(find.byType(BottomNavigationBar), findsOneWidget);
+    expect(find.byType(NavigationBar), findsOneWidget);
   });
 }

@@ -34,6 +34,7 @@ class _HomeworkAppState extends State<HomeworkApp> {
   @override
   void dispose() {
     disposeRouter(router);
+    widget.authenticationBloc.close();
     super.dispose();
   }
 
@@ -44,15 +45,17 @@ class _HomeworkAppState extends State<HomeworkApp> {
         value: widget.repository,
       ),
     ],
-    child: BlocProvider(
-      create: (_) => widget.authenticationBloc,
+    child: BlocProvider.value(
+      value: widget.authenticationBloc,
       child: MaterialApp.router(
         title: 'CSEN 268 HW4 GoRouter',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           useMaterial3: true,
           splashFactory: InkRipple.splashFactory,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF67558F)),
+          scaffoldBackgroundColor: Colors.white,
+          appBarTheme: const AppBarTheme(centerTitle: true),
         ),
         routerConfig: router,
       ),

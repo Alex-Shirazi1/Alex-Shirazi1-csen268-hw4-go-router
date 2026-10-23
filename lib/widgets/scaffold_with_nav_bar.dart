@@ -7,19 +7,35 @@ class ScaffoldWithNavBar extends StatelessWidget {
   const ScaffoldWithNavBar({super.key, required this.child});
   final Widget child;
   @override
-  Widget build(BuildContext context) => Scaffold(
-    body: child,
-    bottomNavigationBar: BottomNavigationBar(
-      currentIndex: _calculateSelectedIndex(context),
-      onTap: (index) => _onItemTapped(index, context),
-      items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Users'),
-        BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-      ],
-    ),
-  );
-  int _calculateSelectedIndex(BuildContext context) =>
-      GoRouterState.of(context).uri.path.startsWith('/profile') ? 1 : 0;
-  void _onItemTapped(int index, BuildContext context) =>
-      context.goNamed(index == 0 ? RouteName.users : RouteName.profile);
+  Widget build(BuildContext context) {
+    final path = GoRouterState.of(context).uri.path;
+    final index = path.startsWith('/profile')
+        ? 2
+        : path.startsWith('/byTitle')
+        ? 1
+        : 0;
+    return Scaffold(
+      body: child,
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: index,
+        onDestinationSelected: (index) => context.goNamed(
+          [RouteName.byAuthor, RouteName.byTitle, RouteName.profile][index],
+        ),
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.person_outline),
+            label: 'By Author',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.text_fields),
+            label: 'By Title',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.settings_outlined),
+            label: 'Profile',
+          ),
+        ],
+      ),
+    );
+  }
 }

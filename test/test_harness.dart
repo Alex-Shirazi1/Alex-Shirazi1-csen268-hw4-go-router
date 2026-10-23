@@ -16,9 +16,7 @@ Future<GoRouter> startApp(
     HomeworkApp(repository: repository, authenticationBloc: bloc),
   );
   await tester.pumpAndSettle();
-  if (loggedIn) {
-    await tapLabel(tester, 'Login');
-  }
+  if (loggedIn) await tapLabel(tester, 'Login');
   return GoRouter.of(tester.element(find.byType(Scaffold).last));
 }
 
@@ -26,9 +24,7 @@ Future<void> tapLabel(WidgetTester tester, String label) async {
   final target = switch (label) {
     'Login' ||
     'Logout' ||
-    'Go to Users' => find.widgetWithText(FilledButton, label),
-    'Profile' => find.byIcon(Icons.person),
-    'Users' => find.byIcon(Icons.list),
+    'Go to Books' => find.widgetWithText(FilledButton, label),
     _ => find.text(label).last,
   };
   await tester.tap(target);

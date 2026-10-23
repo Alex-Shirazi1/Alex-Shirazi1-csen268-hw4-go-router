@@ -13,8 +13,8 @@ class RouterDemoNotFound extends StatelessWidget {
     children: [
       Text('No page exists at $path'),
       FilledButton(
-        onPressed: () => context.goNamed(RouteName.users),
-        child: const Text('Go to Users'),
+        onPressed: () => context.goNamed(RouteName.byAuthor),
+        child: const Text('Go to Books'),
       ),
     ],
   );
